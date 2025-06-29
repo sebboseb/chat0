@@ -37,7 +37,7 @@ export const useAPIKeyStore = create<APIKeyStore>()(
     (set, get) => ({
       keys: {
         google: process.env.GOOGLE_API_KEY!,
-        openrouter: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY || "",
+        openrouter: process.env.NEXT_PUBLIC_OPENROUTER_API_KEY!,
         openai: process.env.OPENAI_API_KEY!,
       },
 
@@ -48,7 +48,7 @@ export const useAPIKeyStore = create<APIKeyStore>()(
       },
 
       hasRequiredKeys: () => {
-        return !!get().keys.google;
+        return true;
       },
 
       getKey: (provider) => {
