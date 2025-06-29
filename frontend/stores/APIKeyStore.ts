@@ -1,7 +1,7 @@
-import { create, Mutate, StoreApi } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create, Mutate, StoreApi } from "zustand";
+import { persist } from "zustand/middleware";
 
-export const PROVIDERS = ['google', 'openrouter', 'openai'] as const;
+export const PROVIDERS = ["google", "openrouter", "openai"] as const;
 export type Provider = (typeof PROVIDERS)[number];
 
 type APIKeys = Record<Provider, string>;
@@ -15,7 +15,7 @@ type APIKeyStore = {
 
 type StoreWithPersist = Mutate<
   StoreApi<APIKeyStore>,
-  [['zustand/persist', { keys: APIKeys }]]
+  [["zustand/persist", { keys: APIKeys }]]
 >;
 
 export const withStorageDOMEvents = (store: StoreWithPersist) => {
@@ -25,10 +25,10 @@ export const withStorageDOMEvents = (store: StoreWithPersist) => {
     }
   };
 
-  window.addEventListener('storage', storageEventCallback);
+  window.addEventListener("storage", storageEventCallback);
 
   return () => {
-    window.removeEventListener('storage', storageEventCallback);
+    window.removeEventListener("storage", storageEventCallback);
   };
 };
 
@@ -36,9 +36,9 @@ export const useAPIKeyStore = create<APIKeyStore>()(
   persist(
     (set, get) => ({
       keys: {
-        google: '',
-        openrouter: '',
-        openai: '',
+        google: "",
+        openrouter: "",
+        openai: "",
       },
 
       setKeys: (newKeys) => {
@@ -57,7 +57,7 @@ export const useAPIKeyStore = create<APIKeyStore>()(
       },
     }),
     {
-      name: 'api-keys',
+      name: "api-keys",
       partialize: (state) => ({ keys: state.keys }),
     }
   )

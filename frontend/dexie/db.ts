@@ -1,5 +1,5 @@
-import { UIMessage } from 'ai';
-import Dexie, { type EntityTable } from 'dexie';
+import { UIMessage } from "ai";
+import Dexie, { type EntityTable } from "dexie";
 
 interface Thread {
   id: string;
@@ -7,14 +7,15 @@ interface Thread {
   createdAt: Date;
   updatedAt: Date;
   lastMessageAt: Date;
+  pinned: boolean;
 }
 
 interface DBMessage {
   id: string;
   threadId: string;
-  parts: UIMessage['parts'];
+  parts: UIMessage["parts"];
   content: string;
-  role: 'user' | 'assistant' | 'system' | 'data';
+  role: "user" | "assistant" | "system" | "data";
   createdAt: Date;
 }
 
@@ -26,17 +27,28 @@ interface MessageSummary {
   createdAt: Date;
 }
 
-const db = new Dexie('chat0') as Dexie & {
-  threads: EntityTable<Thread, 'id'>;
-  messages: EntityTable<DBMessage, 'id'>;
-  messageSummaries: EntityTable<MessageSummary, 'id'>;
+const db = new Dexie("chat0") as Dexie & {
+  threads: EntityTable<Thread, "id">;
+  messages: EntityTable<DBMessage, "id">;
+  messageSummaries: EntityTable<MessageSummary, "id">;
 };
 
-db.version(1).stores({
-  threads: 'id, title, updatedAt, lastMessageAt',
-  messages: 'id, threadId, createdAt, [threadId+createdAt]',
-  messageSummaries: 'id, threadId, messageId, createdAt, [threadId+createdAt]',
-});
+db.version(2)
+  .stores({
+    threads: "id, title, updatedAt, lastMessageAt, pinned",
+    messages: "id, threadId, createdAt, [threadId+createdAt]",
+    messageSummaries:
+      "id, threadId, messageId, createdAt, [threadId+createdAt]",
+  })
+  .upgrade((tx) => {
+    // Add pinned field to existing threads
+    return tx
+      .table("threads")
+      .toCollection()
+      .modify((thread) => {
+        thread.pinned = false;
+      });
+  });
 
 export type { Thread, DBMessage };
 export { db };

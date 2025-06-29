@@ -1,10 +1,10 @@
-import { memo } from 'react';
-import PreviewMessage from './Message';
-import { UIMessage } from 'ai';
-import { UseChatHelpers } from '@ai-sdk/react';
-import equal from 'fast-deep-equal';
-import MessageLoading from './ui/MessageLoading';
-import Error from './Error';
+import { memo } from "react";
+import PreviewMessage from "./Message";
+import { UIMessage } from "ai";
+import { UseChatHelpers } from "@ai-sdk/react";
+import equal from "fast-deep-equal";
+import MessageLoading from "./ui/MessageLoading";
+import Error from "./Error";
 
 function PureMessages({
   threadId,
@@ -15,15 +15,17 @@ function PureMessages({
   error,
   stop,
   registerRef,
+  append,
 }: {
   threadId: string;
   messages: UIMessage[];
-  setMessages: UseChatHelpers['setMessages'];
-  reload: UseChatHelpers['reload'];
-  status: UseChatHelpers['status'];
-  error: UseChatHelpers['error'];
-  stop: UseChatHelpers['stop'];
+  setMessages: UseChatHelpers["setMessages"];
+  reload: UseChatHelpers["reload"];
+  status: UseChatHelpers["status"];
+  error: UseChatHelpers["error"];
+  stop: UseChatHelpers["stop"];
   registerRef: (id: string, ref: HTMLDivElement | null) => void;
+  append: UseChatHelpers["append"];
 }) {
   return (
     <section className="flex flex-col space-y-12">
@@ -32,14 +34,15 @@ function PureMessages({
           key={message.id}
           threadId={threadId}
           message={message}
-          isStreaming={status === 'streaming' && messages.length - 1 === index}
+          isStreaming={status === "streaming" && messages.length - 1 === index}
           setMessages={setMessages}
           reload={reload}
           registerRef={registerRef}
           stop={stop}
+          append={append}
         />
       ))}
-      {status === 'submitted' && <MessageLoading />}
+      {status === "submitted" && <MessageLoading />}
       {error && <Error message={error.message} />}
     </section>
   );
@@ -53,6 +56,6 @@ const Messages = memo(PureMessages, (prevProps, nextProps) => {
   return true;
 });
 
-Messages.displayName = 'Messages';
+Messages.displayName = "Messages";
 
 export default Messages;

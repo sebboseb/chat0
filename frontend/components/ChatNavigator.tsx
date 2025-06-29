@@ -1,8 +1,8 @@
-import { useLiveQuery } from 'dexie-react-hooks';
-import { getMessageSummaries } from '@/frontend/dexie/queries';
-import { memo } from 'react';
-import { X } from 'lucide-react';
-import { Button } from './ui/button';
+import { useLiveQuery } from "dexie-react-hooks";
+import { getMessageSummaries } from "@/frontend/dexie/queries";
+import { memo } from "react";
+import { X } from "lucide-react";
+import { Button } from "./ui/button";
 
 interface MessageNavigatorProps {
   threadId: string;
@@ -33,12 +33,12 @@ function PureChatNavigator({
 
       <aside
         className={`fixed right-0 top-0 h-full w-80 bg-background border-l z-50 transform transition-transform duration-300 ease-in-out ${
-          isVisible ? 'translate-x-0' : 'translate-x-full'
+          isVisible ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="flex flex-col h-full">
           <div className="flex items-center justify-between p-4 border-b">
-            <h3 className="text-sm font-medium">Chat Navigator</h3>
+            <h3 className="text-sm font-medium">Navigera chatt</h3>
             <Button
               onClick={onClose}
               variant="ghost"

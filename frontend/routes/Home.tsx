@@ -1,8 +1,8 @@
-import APIKeyManager from '@/frontend/components/APIKeyForm';
-import Chat from '@/frontend/components/Chat';
-import { v4 as uuidv4 } from 'uuid';
-import { useAPIKeyStore } from '../stores/APIKeyStore';
-import { useModelStore } from '../stores/ModelStore';
+import APIKeyManager from "@/frontend/components/APIKeyForm";
+import Chat from "@/frontend/components/Chat";
+import { v4 as uuidv4 } from "uuid";
+import { useAPIKeyStore } from "../stores/APIKeyStore";
+import { useModelStore } from "../stores/ModelStore";
 
 export default function Home() {
   const hasRequiredKeys = useAPIKeyStore((state) => state.hasRequiredKeys());
